@@ -43,4 +43,31 @@ export class RedirectService {
 
     return { status: 'failed', transaction };
   }
+
+  async handleCheck(params: {
+    transId: string;
+    ccdApproval: string;
+    pnrId: string;
+    transactionToken: string;
+    companyRef: string;
+  }) {
+    const verificationResult =
+      await this.dpoIntegrationService.verifyTransaction(
+        params.transactionToken,
+      );
+
+    const transaction = await this.prisma.transaction.findUnique({
+      where: { transactionToken: params.transactionToken },
+    });
+
+    if (!transaction) {
+      return { status: 'error', message: 'Transaction not found' };
+    }
+
+    return {
+      status: verificationResult.status === '000' ? 'success' : 'failed',
+      transaction,
+      redirectParams: params,
+    };
+  }
 }
