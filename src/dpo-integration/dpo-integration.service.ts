@@ -20,6 +20,8 @@ export class DpoIntegrationService {
     this.baseUrl = this.configService.get<string>('DPO_BASE_URL');
     this.companyToken = this.configService.get<string>('DPO_COMPANY_TOKEN');
     this.redirectUrl = this.configService.get<string>('DPO_REDIRECT_URL');
+    this.paymentUrl = this.configService.get<string>('DPO_PAYMENT_URL');
+    this.serviceId = this.configService.get<string>('DPO_SERVICE_ID');
     this.backUrl = this.configService.get<string>('DPO_BACK_URL');
   }
 
