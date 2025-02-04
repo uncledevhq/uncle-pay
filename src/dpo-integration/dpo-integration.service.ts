@@ -32,6 +32,7 @@ export class DpoIntegrationService {
     totalAmount: number;
     vehicleRegistration: string;
     companyRef?: string;
+    callbackURL?: string;
   }) {
     const transaction = await this.prisma.transaction.create({
       data: {
@@ -152,6 +153,6 @@ export class DpoIntegrationService {
   }
 
   getPaymentUrl(): string {
-    return this.configService.get<string>('PAYMENT_URL');
+    return this.paymentUrl;
   }
 }

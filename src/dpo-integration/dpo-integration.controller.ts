@@ -20,6 +20,7 @@ export class DpoIntegrationController {
           totalAmount: 5000.0,
           vehicleRegistration: 'KAA 123A',
           companyRef: 'REF-001',
+          callbackURL: 'https://example.com',
         },
         summary: 'Sample transaction request',
       },
@@ -46,12 +47,13 @@ export class DpoIntegrationController {
       totalAmount: number;
       vehicleRegistration: string;
       companyRef?: string;
+      callbackURL?: string;
     },
   ) {
     return this.dpoIntegrationService.createTransactionToken(data);
   }
 
-  @Post('verify/:transactionToken')
+  @Post('verify/transaction-status/:transactionToken')
   @ApiOperation({ summary: 'Verify a transaction status' })
   @ApiResponse({
     status: 200,
@@ -64,7 +66,6 @@ export class DpoIntegrationController {
   })
   @ApiResponse({ status: 404, description: 'Transaction not found' })
   verifyTransaction(@Param('transactionToken') transactionToken: string) {
-    console.log(transactionToken, 'ppoopp');
     return this.dpoIntegrationService.verifyTransaction(transactionToken);
   }
 

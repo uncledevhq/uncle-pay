@@ -10,17 +10,18 @@ datasource db {
 }
 
 model Transaction {
-  id                String   @id @default(uuid())
-  policyId          String   @map("policy_id")
-  policyNumber      String   @map("policy_number")
-  currency          String
-  totalAmount       Float    @map("total_amount")
-  vehicleRegistration String @map("vehicle_registration")
-  transactionToken  String?  @unique @map("transaction_token")
-  companyRef        String?  @map("company_ref")
-  status            String   @default("pending")
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  id                  String   @id @default(uuid())
+  policyId            String   @map("policy_id")
+  policyNumber        String   @map("policy_number")
+  currency            String
+  totalAmount         Float    @map("total_amount")
+  vehicleRegistration String   @map("vehicle_registration")
+  transactionToken    String?  @unique @map("transaction_token")
+  companyRef          String?  @map("company_ref")
+  status              String   @default("pending")
+  callbackURL         String?
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
   @@map("transactions")
 }
