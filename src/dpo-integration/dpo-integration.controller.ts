@@ -16,7 +16,7 @@ export class DpoIntegrationController {
         value: {
           policyId: '123e4567-e89b-12d3-a456-426614174000',
           policyNumber: 'POL-2024-001',
-          currency: 'KES',
+          currency: 'USD',
           totalAmount: 5000.0,
           vehicleRegistration: 'KAA 123A',
           companyRef: 'REF-001',

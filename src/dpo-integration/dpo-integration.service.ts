@@ -80,6 +80,7 @@ export class DpoIntegrationService {
         paymentUrl: `https://secure.3gdirectpay.com/payv2.php?ID=${transactionToken}`,
       };
     } catch (error) {
+      console.log(error, 'chibz');
       await this.prisma.transaction.update({
         where: { id: transaction.id },
         data: { status: 'failed' },
