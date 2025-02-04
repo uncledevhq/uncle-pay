@@ -49,8 +49,8 @@ export class DpoIntegrationService {
           <PaymentAmount>${data.totalAmount}</PaymentAmount>
           <PaymentCurrency>${data.currency}</PaymentCurrency>
           <CompanyRef>${data.companyRef || transaction.id}</CompanyRef>
-          <RedirectURL>${this.redirectUrl}</RedirectURL>
-          <BackURL>${this.redirectUrl}</BackURL>
+          <RedirectURL>${data.callbackURL || this.redirectUrl}</RedirectURL>
+          <BackURL>${data.callbackURL || this.redirectUrl}</BackURL>
           <CompanyRefUnique>1</CompanyRefUnique>
           <PTL>5</PTL>
         </Transaction>
