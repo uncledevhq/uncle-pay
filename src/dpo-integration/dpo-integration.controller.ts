@@ -50,6 +50,7 @@ export class DpoIntegrationController {
       callbackURL?: string;
     },
   ) {
+    console.log(data);
     return this.dpoIntegrationService.createTransactionToken(data);
   }
 
