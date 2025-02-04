@@ -69,6 +69,7 @@ export class DpoIntegrationService {
       });
 
       const result = await xml2js.parseStringPromise(response.data);
+      console.log(result, '<<<<');
       const transactionToken = result.API3G.TransToken[0];
 
       await this.prisma.transaction.update({
