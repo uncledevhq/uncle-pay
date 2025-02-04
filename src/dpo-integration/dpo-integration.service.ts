@@ -89,6 +89,40 @@ export class DpoIntegrationService {
     }
   }
 
+  private getTransactionStatus(code: string): {
+    status: string;
+    message: string;
+  } {
+    const statusMap: { [key: string]: { status: string; message: string } } = {
+      '000': { status: 'completed', message: 'Transaction Paid' },
+      '001': { status: 'authorized', message: 'Authorized' },
+      '002': { status: 'review', message: 'Transaction overpaid/underpaid' },
+      '003': { status: 'pending', message: 'Pending Bank' },
+      '005': { status: 'pending', message: 'Queued Authorization' },
+      '007': { status: 'pending', message: 'Pending Split Payment' },
+      '801': { status: 'failed', message: 'Request missing company token' },
+      '802': { status: 'failed', message: 'Company token does not exist' },
+      '803': {
+        status: 'failed',
+        message: 'No request or error in Request type name',
+      },
+      '804': { status: 'failed', message: 'Error in XML' },
+      '900': { status: 'pending', message: 'Transaction not paid yet' },
+      '901': { status: 'failed', message: 'Transaction declined' },
+      '902': { status: 'failed', message: 'Data mismatch in fields' },
+      '903': {
+        status: 'expired',
+        message: 'Transaction passed Payment Time Limit',
+      },
+      '904': { status: 'cancelled', message: 'Transaction cancelled' },
+      '950': { status: 'failed', message: 'Missing mandatory fields' },
+    };
+
+    return (
+      statusMap[code] || { status: 'unknown', message: 'Unknown status code' }
+    );
+  }
+
   async verifyTransaction(transactionToken: string) {
     const xmlPayload = `<?xml version=\"1.0\" encoding=\"utf-8\"?>
       <API3G>
@@ -103,14 +137,15 @@ export class DpoIntegrationService {
       });
 
       const result = await xml2js.parseStringPromise(response.data);
-      const status = result.API3G.Result[0];
+      const code = result.API3G.Result[0];
+      const { status, message } = this.getTransactionStatus(code);
 
       await this.prisma.transaction.update({
         where: { transactionToken },
-        data: { status: status === '000' ? 'completed' : 'failed' },
+        data: { status },
       });
 
-      return { status };
+      return { code, status, message };
     } catch (error) {
       throw error;
     }

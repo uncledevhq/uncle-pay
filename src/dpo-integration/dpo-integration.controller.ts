@@ -64,6 +64,7 @@ export class DpoIntegrationController {
   })
   @ApiResponse({ status: 404, description: 'Transaction not found' })
   verifyTransaction(@Param('transactionToken') transactionToken: string) {
+    console.log(transactionToken, 'ppoopp');
     return this.dpoIntegrationService.verifyTransaction(transactionToken);
   }
 
